@@ -52,3 +52,29 @@ class DataStore:
         """
         
         return float(sum(self.measurements)) / float(len(self.measurements))
+
+
+class AccumulatingStore(DataStore):
+    def __init__(self):
+        super().__init__()
+        self.accumulation = []
+        
+    def add_measurement(self, date, value):
+        """
+        Add measurement to accumulation
+        
+        :param date: Date of measurement
+        :param value: Measurement value
+        """
+        
+        super().add_measurement(date, value)
+        
+        # set the case where this is the first measurement
+        last_acc = 0
+        
+        # Get the last measurement if we have one
+        if self.accumulation:
+            last_acc = self.acc[-1]
+            
+            # add the accumulated value
+            self.accumulation.append(last_acc + value)
